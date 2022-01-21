@@ -1,0 +1,126 @@
+<div class="container-fluid p-1">
+  <div class="row mx-auto">
+    <div class="col-md-12">
+      <div class="row">
+
+        <div class="col-md-4">
+          <img alt="" src="Logo.png" width="770px">
+        </div>
+      </div>
+    </div>
+
+ <div class="row mx-auto " style="margin-bottom: 10px;">
+    
+ <table class="table" style="font-size:medium; color: #000000; text-transform: uppercase; width:200px; border-color: #dddddd; " >
+  <tbody>
+             <tr class="table-active">
+                 <td><center><strong>Fecha del Servicio</strong></center></td>
+             </tr>
+    {{#each datos}}
+       <tr>
+      <td style="font-size: 20px;"><strong><center>{{moment FechaRealizacion}}</center></strong></td>
+    </tr>
+    <tr class="table-active">
+      <td><strong><center>Dias de garantia</center></strong></td>
+    </tr>
+    <tr>
+      <td><center><strong>{{Garantia}}</strong></center></td>
+    </tr>
+    <tr class="table-active" style="font-size: small;">
+      <td><strong><center>La garantia es unicamente valida para las piezas que se cambiaron</center></strong></td>
+    </tr>
+    {{/each}}
+      </tbody>
+</table>
+      <table class=" table-bordered table-striped" style="font-size:medium; margin-left: 5px; color: #000000; text-transform: uppercase; width:550px; border-color: #dddddd;">
+  <tbody>
+      {{#each cliente}}
+       <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+      <td><strong>Cliente</strong></td>
+      <td>{{Nombre}}</td>
+    </tr>
+     <tr>
+      <td><strong>Domicilio</strong></td>
+      <td>{{DirCalle}}  #{{DirNum}}</td>
+    </tr>
+     <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+      <td><strong>Colonia</strong></td>
+      <td>{{DirColonia}}</td>
+    </tr>
+    <tr>
+      <td><strong>Telefono</strong></td>
+      <td>{{Telefono}}</td>
+    </tr>
+    <td><strong>Celular</strong></td>
+      <td>{{Celular}}</td>
+    </tr>
+    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+      <td><strong>Localidad</strong></td>
+      <td>{{Municipio}}</td>
+    </tr>
+    {{/each}}
+    {{#each equipo}}
+    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+      <td><strong>Aparato</strong></td>
+      <td>{{Tipo}}</td>
+    </tr>
+    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+      <td><strong>Marca</strong></td>
+      <td>{{Marca}}</td>
+    </tr>
+    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+      <td><strong>Modelo</strong></td>
+      <td>{{Modelo}}</td>
+    </tr>
+    {{/each}}
+    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+      <td><strong>Tecnico</strong></td>
+      <td>{{tecnico}}</td>
+    </tr>
+    
+      </tbody>
+</table>
+
+</div>
+
+ <div class="row mx-auto ">
+ <table  class=" table-bordered table-striped" style="font-size:medium; margin-left: 5px; color: #000000; text-transform: uppercase; width:750px; border-color: #dddddd; ">
+     <thead style="font-size:large;background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+         <th><center>Descripcion del servicio:</center></th>
+     </thead>
+  <tbody style="height: 3px;">
+      {{#each datos}}
+       <tr>
+      <td><strong>{{Observaciones}}</strong></td>
+    </tr>
+    {{/each}}
+      </tbody>
+</table>
+</div>
+<div>
+  <br>
+</div>
+ <table  class=" table-bordered table-striped" style="font-size:medium; margin-left: 5px; color: #000000; text-transform: uppercase; width:750px; border-color: #dddddd; ">
+     <thead style="font-size:large;background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+         <th><center>Costo total del servicio</center></th>
+         <th><center>Anticipo</center></th>
+         <th><center>Total restante</center></th>
+     </thead>
+  <tbody style="height: 3px;">
+      {{#each datos}}
+       <tr>
+         <td><strong><center>{{CostoServicio}}</center></strong></td>
+         <td><strong><center>{{Presupuesto}}</center></strong></td>
+    {{/each}}
+      <td><strong><center>{{total}}</center></strong></td>
+    </tr>
+      </tbody>
+</table>
+<div>
+  <br>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>

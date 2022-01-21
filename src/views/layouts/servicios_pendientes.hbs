@@ -1,0 +1,140 @@
+<nav class="navbar navbar-expand-lg navbar-dark  bg-dark ">
+  <div class="container-fluid">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+       <ul class="navbar-nav">
+        <li class="nav-item" >
+            <a style="color: white;" id="h1" class=" nav-link" href="/serviflash/servicios_pendientes"> <center><i class="fas fa-home fa-2x"></i><br>Inicio</a> </center>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link"  id="h2" href="/serviflash/clientes"><center><i class="fas fa-address-book fa-2x"></i><br>Clientes</a></center>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="h3" href="/serviflash/agregar_registro"><center><i class="fas fa-file-alt fa-2x"></i><br>Registrar <br> Servicio </a></center>
+        </li>
+        <li class="nav-item" id="admin" style="display: block; ">
+          <a  class="nav-link "  href="/serviflash/reportes"><center><i id="adminI" style="color: #212529;" class="fas fa-user-tie fa-2x"></i><br><p id="adminS" style="color: #212529;">Administrador</p></a></center>
+        </li>
+        <li class="nav-item">
+          <a  class="nav-link " ><center><i style="color: #212529;" class="fas fa-user-tie fa-2x"></i><br><p style="color: #212529;">...</p></a></center>
+        </li>
+        <li class="nav-item" >
+          <a class="nav-link"><center><i class="fas fa-user fa-2x"></i><br>Hola {{user.Nombre}}</a></center>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-20 mx-auto">
+      <strong>
+      <table class="table table-bordered table-hover table-dark" style="color: white; font-weight: normal">
+        <thead class="table-active">
+          <tr >
+            <th>N°</th>
+            <th>Cliente</th>
+            <th>Calle</th>
+            <th>Colonia</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each clienteg}}
+          <tr id="G{{IdOrden}}" style="color:#940008;">
+            <td>{{IdOrden}}</td>
+            <td>{{Nombre}}</td>
+            <td>{{Calle}}</td>
+            <td>{{Colonia}}</td>
+            <td>{{moment FechaVisita}}</td>
+            <td>{{Hora}}</td>
+            <td><center><a href="/serviflash/ver_cliente{{IdCliente}}/" title="VER CLIENTE" class="mx-auto btn btn-success"><i style="color: white;" class="fas fa-user"></i></a></center>
+            </td>
+          </tr>
+          {{/each}}
+          {{#each cliente}}
+          <tr id="{{IdOrden}}" style=" color:white;">
+            <td>{{IdOrden}}</td>
+            <td style="">{{Nombre}}</td>
+            <td>{{Calle}}</td>
+            <td>{{Colonia}}</td>
+            <td>{{moment FechaVisita}}</td>
+            <td>{{Hora}}</td>
+            <td><center><a  href="/serviflash/ver_cliente{{IdCliente}}/" title="VER CLIENTE" class="mx-auto btn btn-success"><i style="color: white;" class="fas fa-user"></i></a></center>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table></strong>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  let array = []
+  let arrayD = []
+  {{#each pendientes}}
+  array.push({
+    IdOrdenServicio: "{{IdOrdenServicio}}",
+    IdCliente: "{{IdCliente}}",
+    FechaVisita: "{{moment FechaVisita}}",
+    IdEquipo: "{{IdEquipo}}",
+    Falla: "{{Falla}}",
+    Hora: "{{Hora}}",
+  })
+  {{/each}}
+  {{#each array}}
+  arrayD.push({
+    ahora:"{{ahora}}"
+  })
+  {{/each}}
+
+
+      ordenes()
+
+      function ordenes() {
+
+        var hoy = new Date();
+        let mes = (hoy.getMonth() + 1)
+        if (mes < 10) {
+          mes = "0" + mes
+        }
+        let dia = (hoy.getDate())
+        if (dia < 10) {
+          dia = "0" + dia
+        }
+        var fecha = hoy.getFullYear() + '-' + mes + '-' + dia
+
+        for (index = 0; index < array.length; index++) {
+
+          if (fecha == array[index].FechaVisita) {
+            document.getElementById(array[index].IdOrdenServicio).style.color="#f1e05a"
+            console.log(arrayD[index].ahora)
+            if(arrayD[index].ahora=="si"){
+              document.getElementById(array[index].IdOrdenServicio).style.color = "#f7931e"
+
+            }
+          }
+        }
+
+        for(index = 0; index < array.length; index++){
+
+        }
+
+      }
+
+
+
+      function actualizar(){location.reload(true);}
+
+setInterval("actualizar()",300000);
+
+</script>
