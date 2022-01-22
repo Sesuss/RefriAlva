@@ -184,6 +184,11 @@
                                         disabled>
                                 </div>
                                 <div class="form-group">
+                                    <label>Serie</label>
+                                    <input type="text" name="Serie" id="Serie" class="form-control text-dark m-1"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
                                     <label>Color</label>
                                     <input type="text" name="Color" id="Color" class="form-control text-dark m-1"
                                         disabled>
@@ -245,6 +250,11 @@
                                 <div class="form-group">
                                     <label>Marca</label>
                                     <input type="text" name="Marca" id="MarcaE" class="form-control text-dark m-1"
+                                        disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label>Serie</label>
+                                    <input type="text" name="Serie" id="SerieE" class="form-control text-dark m-1"
                                         disabled>
                                 </div>
                                 <div class="form-group">
@@ -338,6 +348,7 @@
                                 <label>Dias de garantia</label>
                                 <select name="Garantia" id="Garantia{{IdOrdenServicio}}" class="form-select text-dark m-1 " disabled>
                                     <option  style="display:block" id="ExtraGa{{IdOrdenServicio}}">{{Garantia}}</option>
+                                    <option value="0">0</option>
                                     <option value="30">30</option>
                                     <option value="60">60</option>
                                     <option value="90">90</option>
@@ -351,8 +362,13 @@
                                     class="form-control text-dark m-1" required disabled>
                             </div>
                              <div class="form-group">
-                                <label>Fecha de Visita</label>
+                                <label>Fecha de Servicio</label>
                                 <input type="date" name="FechaVisita" id="FechaVisita{{IdOrdenServicio}}" value="{{moment FechaVisita }}"
+                                    class="form-control text-dark m-1" disabled>
+                            </div>
+                             <div class="form-group">
+                                <label>Fecha de Recoleccion</label>
+                                <input type="date" name="FechaRecoleccion" id="FechaRecoleccion{{IdOrdenServicio}}" value="{{moment FechaRecoleccion }}"
                                     class="form-control text-dark m-1" disabled>
                             </div>
                             <div class="form-group">
@@ -441,12 +457,13 @@
                                 <label>Tecnico</label>
                                 <select name="IdTecnico" id="IdTecnico{{IdOrdenServicio}}" class="form-select text-dark m-1 " disabled required>
                                     <option  style="display:block" id="Extra1{{IdOrdenServicio}}" value="{{IdTecnico}}">{{IdTecnico}}</option>
-                                    
-
-                                    <option value="0">Seleccione uno</option>
-                                    <option value="4">ALEJO FAJARDO</option>
-                                    <option value="8">RICARDO ANTONIO</option>
-                                    <option value="11">ALBERTO CARLOS</option>
+                                            <option value="0">Seleccione uno</option>
+                                            <option value="1">JOSE MANUEL</option>
+                                            <option value="2">JUAN CARLOS</option>
+                                            <option value="3">GERARDO LOPEZ</option>
+                                            <option value="4">SEBASTIAN BLANCO</option>
+                                            <option value="5">MANUEL RAMIREZ</option>
+                                            <option value="6">MANUEL RICO</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -518,6 +535,7 @@
         Marca: "{{Marca}}",
         Color: "{{Color}}",
         Modelo: "{{Modelo}}",
+        Serie:"{{Serie}}",
         LugarS: a
     })
     a++
@@ -546,6 +564,7 @@
                             document.getElementById("Marca").value = arrayE[index].Marca
                             document.getElementById("Color").value = arrayE[index].Color
                             document.getElementById("Modelo").value = arrayE[index].Modelo
+                            document.getElementById("Serie").value = arrayE[index].Serie
                             document.getElementById("Agregar").style.display = "block"
                             document.getElementById("agregare").style.display = "block"
                             document.getElementById("btneditare").style.display = "block"
@@ -565,9 +584,13 @@
                 document.getElementById("Tipo").disabled = false
                 document.getElementById("Tipo").value = ""
                 document.getElementById("Marca").disabled = false
+                document.getElementById("Serie").value = ""
+                document.getElementById("Serie").disabled = false
                 document.getElementById("Marca").value = ""
                 document.getElementById("Color").disabled = false
                 document.getElementById("Color").value = ""
+                document.getElementById("Serie").disabled = false
+                document.getElementById("Serie").value = ""
                 document.getElementById("Modelo").disabled = false
                 document.getElementById("Modelo").value = ""
                 document.getElementById("btnagr").style.display = "block"
@@ -707,12 +730,14 @@
                 document.getElementById("CategoriaE").value = document.getElementById("Categoria").value
                 document.getElementById("TipoE").value = document.getElementById("Tipo").value
                 document.getElementById("MarcaE").value = document.getElementById("Marca").value
+                document.getElementById("SerieE").value = document.getElementById("Serie").value
                 document.getElementById("ColorE").value = document.getElementById("Color").value
                 document.getElementById("ModeloE").value = document.getElementById("Modelo").value
                 document.getElementById("btnagrE").style.display = "block"
                 document.getElementById("CategoriaE").disabled = false
                 document.getElementById("TipoE").disabled = false
                 document.getElementById("MarcaE").disabled = false
+                document.getElementById("SerieE").disabled = false
                 document.getElementById("ColorE").disabled = false
                 document.getElementById("ModeloE").disabled = false
             }
@@ -733,17 +758,24 @@
                 
 
 
-                if (document.getElementById("IdTecnico"+id).value=="ALEJO FAJARDO"){
-                   // document.getElementById("Extra1"+id).style.display = "none"
+                if (document.getElementById("IdTecnico"+id).value=="JOSE MANUEL"){
+                    document.getElementById("Extra1"+id).style.display = "none"
                     document.getElementById("IdTecnico"+id).selectedIndex=2
-
-                }else if(document.getElementById("IdTecnico"+id).value=="RICARDO ANTONIO"){
-                    //document.getElementById("Extra1"+id).style.display = "none"
+                }else if(document.getElementById("IdTecnico"+id).value=="JUAN CARLOS"){
+                    document.getElementById("Extra1"+id).style.display = "none"
                     document.getElementById("IdTecnico"+id).selectedIndex=3
-
-                }else if(document.getElementById("IdTecnico"+id).value=="ALBERTO CARLOS"){
-                   // document.getElementById("Extra1"+id).style.display = "none"
+                }else if(document.getElementById("IdTecnico"+id).value=="GERARDO LOPEZ"){
+                   document.getElementById("Extra1"+id).style.display = "none"
                     document.getElementById("IdTecnico"+id).selectedIndex=4
+                }else if(document.getElementById("IdTecnico"+id).value=="SEBASTIAN BLANCO"){
+                   document.getElementById("Extra1"+id).style.display = "none"
+                    document.getElementById("IdTecnico"+id).selectedIndex=5
+                }else if(document.getElementById("IdTecnico"+id).value=="MANUEL RAMIREZ"){
+                   document.getElementById("Extra1"+id).style.display = "none"
+                    document.getElementById("IdTecnico"+id).selectedIndex=6
+                }else if(document.getElementById("IdTecnico"+id).value=="MANUEL RICO"){
+                   document.getElementById("Extra1"+id).style.display = "none"
+                    document.getElementById("IdTecnico"+id).selectedIndex=7
                 }
 
 
@@ -780,6 +812,7 @@
                 document.getElementById("Garantia"+id).disabled = false
                 document.getElementById("FechaSolicitud"+id).disabled = false
                 document.getElementById("FechaVisita"+id).disabled = false
+                document.getElementById("FechaRecoleccion"+id).disabled = false
                 document.getElementById("Realizado"+id).disabled = false
                 document.getElementById("FechaRealizacion"+id).disabled = false
                 document.getElementById("Observaciones"+id).disabled = false

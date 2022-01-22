@@ -3,13 +3,14 @@
     <div class="col-md-12">
       <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-4" style="margin-bottom: 5px;">
           <img alt="" src="Logo.png" width="770px">
         </div>
       </div>
     </div>
 
  <div class="row mx-auto " style="margin-bottom: 10px;">
+   <br>
     
  <table class="table" style="font-size:medium; color: #000000; text-transform: uppercase; width:200px; border-color: #dddddd; " >
   <tbody>
@@ -40,7 +41,7 @@
       <td>{{Nombre}}</td>
     </tr>
      <tr>
-      <td><strong>Domicilio</strong></td>
+      <td><strong>Calle</strong></td>
       <td>{{DirCalle}}  #{{DirNum}}</td>
     </tr>
      <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
@@ -51,10 +52,11 @@
       <td><strong>Telefono</strong></td>
       <td>{{Telefono}}</td>
     </tr>
+    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
     <td><strong>Celular</strong></td>
       <td>{{Celular}}</td>
     </tr>
-    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+    <tr >
       <td><strong>Localidad</strong></td>
       <td>{{Municipio}}</td>
     </tr>
@@ -64,13 +66,17 @@
       <td><strong>Aparato</strong></td>
       <td>{{Tipo}}</td>
     </tr>
-    <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
+    <tr >
       <td><strong>Marca</strong></td>
       <td>{{Marca}}</td>
     </tr>
     <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
       <td><strong>Modelo</strong></td>
       <td>{{Modelo}}</td>
+    </tr>
+     <tr >
+      <td><strong>Serie</strong></td>
+      <td>{{Serie}}</td>
     </tr>
     {{/each}}
     <tr style="background-color: #dddddd; -webkit-print-color-adjust: exact; ">
@@ -91,7 +97,7 @@
   <tbody style="height: 3px;">
       {{#each datos}}
        <tr>
-      <td><strong>{{Observaciones}}</strong></td>
+      <td style="text-align:justify"><strong>{{Observaciones}}</strong></td>
     </tr>
     {{/each}}
       </tbody>
@@ -117,7 +123,8 @@
       </tbody>
 </table>
 <div>
-  <br>
+          <img alt="" src="fin.png" >
+  
 </div>
 </div>
 </div>

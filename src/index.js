@@ -18,7 +18,7 @@ const database = {
     host:"localhost",
     user: "root",
     password: "",
-    database: "serviflash",
+    database: "refrialvarez",
   
   
   }

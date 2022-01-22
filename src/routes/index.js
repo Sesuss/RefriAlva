@@ -38,36 +38,39 @@ router.get("/serviflash/agregar_registro:id/", isLoggedIn, async (req, res) => {
 
 
 router.post("/agregar_registro", isLoggedIn, async (req, res) => {
-    let { IdOrdenServicio, IdCliente, IdEquipo, Falla, FechaSolicitud,FechaVisita, Realizado, FechaRealizacion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion } = req.body
+    let { IdOrdenServicio, IdCliente, IdEquipo, Falla, FechaSolicitud,FechaVisita, Realizado, FechaRealizacion, FechaRecoleccion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion } = req.body
     let id = req.user.IdUsuario
     await pool.query("INSERT INTO `tblmovimientos` (`IdUsuario`, `TipoMovimiento`, `IdOrdenServicio`,`Fecha`) VALUES (?, '6', ?,current_timestamp())",[id,IdOrdenServicio])
     if (FechaRealizacion=="") {
         FechaRealizacion=null
     }
     if (CostoServicio=="") {
-        FechaRealizacion=null
+        CostoServicio=null
     }
-    const newarticulo = { IdOrdenServicio, IdCliente, IdEquipo, Falla, FechaSolicitud, FechaVisita, Realizado, FechaRealizacion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion }
+    if(	FechaRecoleccion==""){
+        FechaRecoleccion=null
+    }
+    const newarticulo = { IdOrdenServicio, IdCliente, IdEquipo, Falla, FechaSolicitud, FechaVisita, Realizado, FechaRealizacion, FechaRecoleccion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion }
     await pool.query("INSERT INTO tblordenservicio SET ?", [newarticulo])
     res.redirect("/serviflash/ver_cliente"+IdCliente+"/")
 
 })
 
 router.post("/agregar_equipo", isLoggedIn, async (req, res) => {
-    let { IdCliente, IdEquipo, Categoria, Tipo, Marca, Color, Modelo } = req.body
+    let { IdCliente, IdEquipo, Categoria, Tipo, Marca, Serie, Color, Modelo } = req.body
     let id = req.user.IdUsuario
     await pool.query("INSERT INTO `tblmovimientos` (`IdUsuario`, `TipoMovimiento`, `IdCliente`, `IdEquipo`,`Fecha`) VALUES (?, '4', ?, ?, current_timestamp())",[id,IdCliente,IdEquipo])
-    const newequipo = { IdCliente, IdEquipo, Categoria, Tipo, Marca, Color, Modelo }
+    const newequipo = { IdCliente, IdEquipo, Categoria, Tipo, Marca, Serie, Color, Modelo }
     await pool.query("INSERT INTO tblequipos SET ?", [newequipo])
     res.redirect("/serviflash/agregar_registro"+IdCliente+"/")
 
 })
 
 router.post("/ver_cliente/agregare", isLoggedIn, async (req, res) => {
-    let { IdCliente, IdEquipo, Categoria, Tipo, Marca, Color, Modelo } = req.body
+    let { IdCliente, IdEquipo, Categoria, Tipo, Marca, Serie, Color, Modelo } = req.body
     let id = req.user.IdUsuario
     await pool.query("INSERT INTO `tblmovimientos` ( `IdUsuario`, `TipoMovimiento`, `IdCliente`, `IdEquipo`, `Fecha`) VALUES (?, '4', ?, ?, current_timestamp())",[id,IdCliente,IdEquipo])
-    const newequipo = { IdCliente, IdEquipo, Categoria, Tipo, Marca, Color, Modelo }
+    const newequipo = { IdCliente, IdEquipo, Categoria, Tipo, Marca, Serie, Color, Modelo }
     await pool.query("INSERT INTO tblequipos SET ?", [newequipo])
     res.redirect("/serviflash/ver_cliente"+IdCliente+"/")
 
@@ -83,46 +86,42 @@ router.post("/editar_cliente", isLoggedIn, async (req, res) => {
 })
 
 router.post("/editar_registro", isLoggedIn, async (req, res) => {
-    let { IdOrdenServicio, IdCliente, IdEquipo, Falla, Garantia, FechaSolicitud, FechaVisita, Realizado, FechaRealizacion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion } = req.body
+    let { IdOrdenServicio, IdCliente, IdEquipo, Falla, Garantia, FechaSolicitud, FechaVisita, FechaRecoleccion, Realizado, FechaRealizacion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion } = req.body
     let id = req.user.IdUsuario
     await pool.query("INSERT INTO `tblmovimientos` (`IdUsuario`, `TipoMovimiento`, `IdOrdenServicio`,`Fecha`) VALUES (?, '7', ?, current_timestamp())",[id,IdOrdenServicio])
-    if (IdTecnico=="JOSE MARIA CARDENAS ANZAR") {
+    if (IdTecnico=="JOSE MANUEL") {
         IdTecnico=1
-    }else if (IdTecnico=="JOSE LUIS ZAMORA") {
+    }else if (IdTecnico=="JUAN CARLOS") {
         IdTecnico=2
-    }else if (IdTecnico=="JOSE MANUEL ALVAREZ") {
+    }else if (IdTecnico=="GERARDO LOPEZ") {
         IdTecnico=3
-    }else if (IdTecnico=="ALEJO FAJARDO") {
+    }else if (IdTecnico=="GERARDO LOPEZ") {
         IdTecnico=4
-    }else if (IdTecnico=="ULISES MENDOZA") {
+    }else if (IdTecnico=="MANUEL RAMIREZ") {
         IdTecnico=5
-    }else if (IdTecnico=="FERNANDO GARCIA") {
+    }else if (IdTecnico=="MANUEL RICO") {
         IdTecnico=6
-    }else if (IdTecnico=="MOISES RICARDO BENITEZ") {
-        IdTecnico=7
-    }else if (IdTecnico=="RICARDO ANTONIO PEREZ DUEÑAS") {
-        IdTecnico=8
-    }else if (IdTecnico=="JOSE ARMANDO PEREZ CRUZ") {
-        IdTecnico=9
-    }else if (IdTecnico=="ESTEBAN PEREZ CRUZ") {
-        IdTecnico=10
-    }else if (IdTecnico=="ALBERTO CARLOS SERRANO") {
-        IdTecnico=11
+    }
+    if (FechaRealizacion=="") {
+        FechaRealizacion=null
     }
     if (CostoServicio=="") {
         CostoServicio=0
     }
-    const neworden = { IdOrdenServicio, IdCliente, IdEquipo, Falla, Garantia, FechaSolicitud, FechaVisita, Realizado, FechaRealizacion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion }
+    if (FechaRecoleccion=="") {
+        FechaRecoleccion=0
+    }
+    const neworden = { IdOrdenServicio, IdCliente, IdEquipo, Falla, Garantia, FechaSolicitud, FechaVisita, FechaRecoleccion, Realizado, FechaRealizacion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion }
     await pool.query("UPDATE tblordenservicio SET ? WHERE IdOrdenServicio = ?", [neworden,IdOrdenServicio])
     res.redirect("/serviflash/ver_cliente"+IdCliente+"/")
 
 })
 
 router.post("/editar_equipo", isLoggedIn, async (req, res) => {
-    let { IdCliente, IdEquipo, Categoria, Tipo, Marca, Color, Modelo} = req.body
+    let { IdCliente, IdEquipo, Categoria, Tipo, Marca, Serie, Color, Modelo} = req.body
     let id = req.user.IdUsuario
     await pool.query("INSERT INTO `tblmovimientos` (`IdUsuario`, `TipoMovimiento`, `IdCliente`, `IdEquipo`, `Fecha`) VALUES (?, '5', ?, ?, current_timestamp())",[id,IdCliente,IdEquipo])
-    const newequipo = { IdCliente,IdEquipo, Categoria, Tipo, Marca, Color, Modelo}
+    const newequipo = { IdCliente,IdEquipo, Categoria, Tipo, Marca, Serie, Color, Modelo}
     await pool.query("UPDATE tblequipos SET ? WHERE IdCliente=? AND IdEquipo=?", [newequipo, IdCliente, IdEquipo])
     res.redirect("/serviflash/ver_cliente"+IdCliente+"/")
 
@@ -305,29 +304,20 @@ router.get("/serviflash/ver_cliente:id/", isLoggedIn, async (req, res) => {
         }
     }
     for (let index = 0; index < orden.length; index++) {
+
         if (orden[index].IdTecnico==1) {
-            orden[index].IdTecnico="JOSE MARIA CARDENAS ANZAR"
+            orden[index].IdTecnico="JOSE MANUEL"
         }else if (orden[index].IdTecnico==2) {
-            orden[index].IdTecnico="JOSE LUIS ZAMORA"
+            orden[index].IdTecnico="JUAN CARLOS"
         }else if (orden[index].IdTecnico==3) {
-            orden[index].IdTecnico="JOSE MANUEL ALVAREZ"
+            orden[index].IdTecnico="GERARDO LOPEZ"
         }else if(orden[index].IdTecnico==4){
-            orden[index].IdTecnico="ALEJO FAJARDO"
+            orden[index].IdTecnico="SEBASTIAN BLANCO"
         }else if (orden[index].IdTecnico==5) {
-            orden[index].IdTecnico="ULISES MENDOZA"
+            orden[index].IdTecnico="MANUEL RAMIREZ"
         }else if (orden[index].IdTecnico==6) {
-            orden[index].IdTecnico="FERNANDO GARCIA"
-        }else if (orden[index].IdTecnico==7) {
-            orden[index].IdTecnico="MOISES RICARDO BENITEZ"
-        }else if (orden[index].IdTecnico==8) {
-            orden[index].IdTecnico="RICARDO ANTONIO PEREZ DUEÑAS"
-        }else if (orden[index].IdTecnico==9) {
-            orden[index].IdTecnico="JOSE ARMANDO PEREZ CRUZ"
-        }else if (orden[index].IdTecnico==10) {
-            orden[index].IdTecnico="ESTEBAN PEREZ CRUZ"
-        }else if (orden[index].IdTecnico==11) {
-            orden[index].IdTecnico="ALBERTO CARLOS SERRANO"
-        }else{orden[index].IdTecnico=""}
+            orden[index].IdTecnico="MANUEL RICO"
+        }
     }
 
     res.render("layouts/cliente_completo", { equipo, cliente, orden ,id })
@@ -407,12 +397,18 @@ router.post("/serviflash/ver_movimientos", isLoggedIn, isAdmin, async (req, res)
 router.post("/serviflash/ver_reporte", isLoggedIn, isAdmin, async (req, res) => {
     let {desde, hasta} =req.body
      let ordenes = await pool.query("SELECT substring(FechaRealizacion,1,10)AS fecha, CostoServicio, IdTecnico FROM tblordenservicio WHERE Realizado = 255")
-     let tec4=0,
-     tec8=0,
-     tec11=0,
+     let tec1=0,
+     tec2=0,
+     tec3=0,
+     tec4=0,
+     tec5=0,
+     tec6=0,
+     tec1n=0,
+     tec2n=0,
+     tec3n=0,
      tec4n=0,
-     tec8n=0,
-     tec11n=0,
+     tec5n=0,
+     tec6n=0,
      a=0,
      total=0,
      format="yyyy-MM-DD"
@@ -426,24 +422,36 @@ router.post("/serviflash/ver_reporte", isLoggedIn, isAdmin, async (req, res) => 
         if (fecha.isBetween(ATime, DTime)) {
         a=a+1
         total+=ordenes[index].CostoServicio
-        if (ordenes[index].IdTecnico==4) {
+        if (ordenes[index].IdTecnico==1) {
+            tec1n+=+1
+            tec1+=ordenes[index].CostoServicio
+        } else if (ordenes[index].IdTecnico==2) {
+            tec2n+=+1
+            tec2+=ordenes[index].CostoServicio
+        }else if (ordenes[index].IdTecnico==3) {
+            tec3n+=+1
+            tec3+=ordenes[index].CostoServicio
+        }else if (ordenes[index].IdTecnico==4) {
             tec4n+=+1
             tec4+=ordenes[index].CostoServicio
-        } else if (ordenes[index].IdTecnico==8) {
-            tec8n+=+1
-            tec8+=ordenes[index].CostoServicio
-        }else if (ordenes[index].IdTecnico==11) {
-            tec11n+=+1
-            tec11+=ordenes[index].CostoServicio
+        }else if (ordenes[index].IdTecnico==5) {
+            tec5n+=+1
+            tec5+=ordenes[index].CostoServicio
+        }else if (ordenes[index].IdTecnico==6) {
+            tec6n+=+1
+            tec6+=ordenes[index].CostoServicio
         }
 
         }
         }
         total = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(total);
+        tec1 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec1);
+        tec2 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec2);
+        tec3 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec3);
         tec4 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec4);
-        tec8 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec8);
-        tec11 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec11);
-    res.render("layouts/reporte_tecnico",{total,tec4,tec8,tec11,tec4n,tec8n,tec11n})
+        tec5 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec5);
+        tec6 = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(tec6);
+    res.render("layouts/reporte_tecnico",{total,tec1,tec2,tec3,tec4,tec5,tec6,tec1n,tec2n,tec3n,tec4n,tec5n,tec6n})
 })
 
 

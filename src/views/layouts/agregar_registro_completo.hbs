@@ -175,6 +175,11 @@
                                              disabled>
                                     </div>
                                     <div class="form-group">
+                                        <label>Serie</label>
+                                        <input type="text" name="Serie" id="Serie" class="form-control text-dark m-1"
+                                             disabled>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Color</label>
                                         <input type="text" name="Color" id="Color" class="form-control text-dark m-1"
                                              disabled>
@@ -232,9 +237,14 @@
                                              required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Fecha de Visita</label>
+                                        <label>Fecha de Servicio</label>
                                         <input type="date" name="FechaVisita"  class="form-control text-dark m-1"
                                              required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Fecha de Recoleccion</label>
+                                        <input type="date" name="FechaRecoleccion"  class="form-control text-dark m-1"
+                                             >
                                     </div>
                                     <div class="form-group">
                                         <label>Realizado</label>
@@ -313,9 +323,12 @@
                                         <label>Tecnico</label>
                                         <select name="IdTecnico" class="form-select text-dark m-1 ">
                                             <option value="0" selected >Seleccione uno</option>
-                                            <option value="4">ALEJO FAJARDO</option>
-                                            <option value="8">RICARDO ANTONIO</option>
-                                            <option value="11">ALBERTO CARLOS</option>
+                                            <option value="1">JOSE MANUEL</option>
+                                            <option value="2">JUAN CARLOS</option>
+                                            <option value="3">GERARDO LOPEZ</option>
+                                            <option value="4">SEBASTIAN BLANCO</option>
+                                            <option value="5">MANUEL RAMIREZ</option>
+                                            <option value="6">MANUEL RICO</option>
                                         </select>
                                     </div>                                
                                     <div class="form-group">
@@ -360,6 +373,7 @@
                 Tipo: "{{Tipo}}",
                 Marca: "{{Marca}}",
                 Color: "{{Color}}",
+                Serie:"{{Serie}}",
                 Modelo: "{{Modelo}}",
                 LugarS: a
             })
@@ -376,6 +390,7 @@
                                     document.getElementById("Marca").value=arrayE[index].Marca
                                     document.getElementById("Color").value=arrayE[index].Color
                                     document.getElementById("Modelo").value=arrayE[index].Modelo
+                                    document.getElementById("Serie").value=arrayE[index].Serie
                                     document.getElementById("EquipoRr").value=arrayE[index].IdEquipo
                                     document.getElementById("EquipoR").value=arrayE[index].IdEquipo
                                     document.getElementById("Agregar").style.display = "block"
@@ -398,6 +413,7 @@
                         document.getElementById("Categoria").disabled=false
                         document.getElementById("Tipo").disabled=false
                         document.getElementById("Marca").disabled=false
+                        document.getElementById("Serie").disabled=false
                         document.getElementById("Color").disabled=false
                         document.getElementById("Modelo").disabled=false
                         document.getElementById("btnagr").style.display = "block"
