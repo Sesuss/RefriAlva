@@ -329,6 +329,11 @@ router.get("/refrigeracionalvarez/reportes", isLoggedIn, isAdmin, async (req, re
         res.render("layouts/reporte")
     
 })
+router.get("/nadaaaa", isLoggedIn, async (req, res) => {
+
+    res.render("layouts/firmaa")
+
+})
 
 
 router.post("/refrigeracionalvarez/ver_movimientos", isLoggedIn, isAdmin, async (req, res) => {
