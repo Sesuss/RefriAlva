@@ -33,6 +33,8 @@
   <div class="row">
     <div class="col-md-20 mx-auto">
       <strong>
+
+        {{#if clientep}}
       <table class="table table-bordered table-hover table-dark" style="color: white; font-weight: normal">
         <thead class="table-active">
           <tr >
@@ -46,18 +48,35 @@
           </tr>
         </thead>
         <tbody>
-          {{#each clienteg}}
-          <tr id="G{{IdOrden}}" style="color:#940008;">
+          {{#each clientep}}
+          <tr id="{{IdOrden}}" style=" color:green;" >
             <td>{{IdOrden}}</td>
-            <td>{{Nombre}}</td>
+            <td style="">{{Nombre}}</td>
             <td>{{Calle}}</td>
             <td>{{Colonia}}</td>
-            <td>{{moment FechaVisita}}</td>
+            <td>{{moment FechaRealizacion}}</td>
             <td>{{Hora}}</td>
-            <td><center><a href="/refrigeracionalvarez/ver_cliente{{IdCliente}}/" title="VER CLIENTE" class="mx-auto btn btn-success"><i style="color: white;" class="fas fa-user"></i></a></center>
+            <td><center><a  href="/refrigeracionalvarez/ver_cliente{{IdCliente}}/" title="VER CLIENTE" class="mx-auto btn btn-success"><i style="color: white;" class="fas fa-user"></i></a></center>
             </td>
-          </tr>
           {{/each}}
+          </tr>
+        </tbody>
+      </table>
+      {{/if}}
+
+      <table class="table table-bordered table-hover table-dark" style="color: white; font-weight: normal">
+        <thead class="table-active">
+          <tr >
+            <th>N°</th>
+            <th>Cliente</th>
+            <th>Calle</th>
+            <th>Colonia</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
           {{#each cliente}}
           <tr id="{{IdOrden}}" style=" color:white;">
             <td>{{IdOrden}}</td>
@@ -71,7 +90,41 @@
           </tr>
           {{/each}}
         </tbody>
-      </table></strong>
+      </table>
+  
+         {{#if clienteg}}
+      <table class="table table-bordered table-hover table-dark" style="color: white; font-weight: normal">
+        <thead class="table-active">
+          <tr >
+            <th>N°</th>
+            <th>Cliente</th>
+            <th>Calle</th>
+            <th>Colonia</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+         {{#each clienteg}}
+          <tr id="G{{IdOrden}}" style="color:#940008;">
+            <td>{{IdOrden}}</td>
+            <td>{{Nombre}}</td>
+            <td>{{Calle}}</td>
+            <td>{{Colonia}}</td>
+            <td>{{moment FechaGarantiaNew}}</td>
+            <td>{{Hora}}</td>
+            <td><center><a href="/refrigeracionalvarez/ver_cliente{{IdCliente}}/" title="VER CLIENTE" class="mx-auto btn btn-success"><i style="color: white;" class="fas fa-user"></i></a></center>
+            </td>
+          </tr>
+          {{/each}}
+          </tr>
+        </tbody>
+      </table>
+      {{/if}}
+      
+      
+      </strong>
     </div>
   </div>
 </div>
