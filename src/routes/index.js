@@ -55,6 +55,17 @@ router.post("/agregar_registro", isLoggedIn, async (req, res) => {
     res.redirect("/refrigeracionalvarez/ver_cliente"+IdCliente+"/")
 
 })
+router.post("/por_folio", isLoggedIn, async (req, res) => {
+    let {Folio} = req.body
+   
+    const cliente = await pool.query("SELECT * FROM `tblordenservicio` WHERE `IdOrdenServicio` = ?", [Folio])
+    if (cliente[0] == undefined ) {
+        res.redirect("/refrigeracionalvarez/clientes")   
+    } else{
+    res.redirect("/refrigeracionalvarez/ver_cliente"+cliente[0].IdCliente+"/")
+    }
+
+})
 
 router.post("/agregar_equipo", isLoggedIn, async (req, res) => {
     let { IdCliente, IdEquipo, Categoria, Tipo, Marca, Serie, Color, Modelo } = req.body
@@ -130,7 +141,7 @@ router.post("/editar_equipo", isLoggedIn, async (req, res) => {
 
 })
 
-router.post("/editar_garantia", isLoggedIn, isAdmin, async (req, res) => {
+router.post("/editar_garantia", isLoggedIn, async (req, res) => {
     let {IdOrdenServicio, FechaGarantia, FechaGarantiaNew, HoraGarantia, NotasGarantia}=req.body
     let garantia ={FechaGarantia, FechaGarantiaNew, HoraGarantia, NotasGarantia}
     console.log(IdOrdenServicio, garantia)

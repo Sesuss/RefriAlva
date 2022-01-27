@@ -30,6 +30,12 @@
  <div class="row mx-auto ">
 <table class="table" style="font-size:x-large; margin-left: 10px; color: #000000; text-transform: uppercase; width:750px">
   <tbody>
+     {{#each datos}}
+     <tr style="background-color: #dbdbdb;">
+      <td><strong>Folio</strong></td>
+      <td>{{IdOrdenServicio}}</td>
+    </tr>
+     {{/each}}
     {{#each cliente}}
     <tr>
       <td><strong>Cliente</strong></td>
