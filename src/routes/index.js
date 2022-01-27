@@ -111,6 +111,9 @@ router.post("/editar_registro", isLoggedIn, async (req, res) => {
     if (FechaRecoleccion=="") {
         FechaRecoleccion=0
     }
+    if (Garantia=="") {
+        Garantia=0
+    }
     const neworden = { IdOrdenServicio, IdCliente, IdEquipo, Falla, Garantia, FechaSolicitud, FechaVisita, FechaRecoleccion, Realizado, FechaRealizacion, Observaciones, ObservacionesExtra, Presupuesto, CostoServicio, Hora, IdTecnico, MedioDeInformacion }
     await pool.query("UPDATE tblordenservicio SET ? WHERE IdOrdenServicio = ?", [neworden,IdOrdenServicio])
     res.redirect("/refrigeracionalvarez/ver_cliente"+IdCliente+"/")
