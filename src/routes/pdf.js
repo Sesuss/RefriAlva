@@ -278,19 +278,36 @@ module.exports={
         const datos = await pool.query("SELECT * FROM tblordenservicio WHERE IdOrdenServicio = ?",[idOrden])
         const cliente = await pool.query("SELECT * FROM tblclientes WHERE IdCliente = ?",[datos[0].IdCliente])
         let tecnico = await pool.query("SELECT * FROM tbltecnicos WHERE IdTecnico = ?",[datos[0].IdTecnico])
-        tecnico=tecnico[0].Nombre
-        const equipo = await pool.query("SELECT * FROM tblequipos WHERE IdCliente = ? AND IdEquipo = ?", [datos[0].IdCliente, datos[0].IdEquipo])
-        const cantidad = numeroALetras(datos[0].CostoServicio, {
-            plural: "PESOS",
-            singular: "PESO",
-            centPlural: "CENTAVOS",
-            centSingular: "CENTAVO"
-          });
-          let total = datos[0].CostoServicio-datos[0].Presupuesto
-          datos[0].CostoServicio = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(datos[0].CostoServicio);
-          datos[0].Presupuesto = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(datos[0].Presupuesto);
-          total = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(total);
-        res.render("nota.hbs",{ layout:"mainpdf",datos,cliente,tecnico,equipo,cantidad, total})
+        if(tecnico[0]==undefined){
+
+            const equipo = await pool.query("SELECT * FROM tblequipos WHERE IdCliente = ? AND IdEquipo = ?", [datos[0].IdCliente, datos[0].IdEquipo])
+            const cantidad = numeroALetras(datos[0].CostoServicio, {
+                plural: "PESOS",
+                singular: "PESO",
+                centPlural: "CENTAVOS",
+                centSingular: "CENTAVO"
+              });
+              let total = datos[0].CostoServicio-datos[0].Presupuesto
+              datos[0].CostoServicio = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(datos[0].CostoServicio);
+              datos[0].Presupuesto = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(datos[0].Presupuesto);
+              total = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(total);
+            res.render("nota.hbs",{ layout:"mainpdf",datos,cliente,equipo,cantidad, total})
+
+        }else{
+            tecnico=tecnico[0].Nombre
+            const equipo = await pool.query("SELECT * FROM tblequipos WHERE IdCliente = ? AND IdEquipo = ?", [datos[0].IdCliente, datos[0].IdEquipo])
+            const cantidad = numeroALetras(datos[0].CostoServicio, {
+                plural: "PESOS",
+                singular: "PESO",
+                centPlural: "CENTAVOS",
+                centSingular: "CENTAVO"
+              });
+              let total = datos[0].CostoServicio-datos[0].Presupuesto
+              datos[0].CostoServicio = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(datos[0].CostoServicio);
+              datos[0].Presupuesto = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(datos[0].Presupuesto);
+              total = Intl.NumberFormat('en-EU', {style: 'currency',currency: 'MXN', minimumFractionDigits: 2}).format(total);
+            res.render("nota.hbs",{ layout:"mainpdf",datos,cliente,tecnico,equipo,cantidad, total})
+        }
     },
     
     async despdf(req,res){
