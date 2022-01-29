@@ -142,10 +142,17 @@ router.post("/editar_equipo", isLoggedIn, async (req, res) => {
 })
 
 router.post("/editar_garantia", isLoggedIn, async (req, res) => {
-    let {IdOrdenServicio, FechaGarantia, FechaGarantiaNew, HoraGarantia, NotasGarantia}=req.body
-    let garantia ={FechaGarantia, FechaGarantiaNew, HoraGarantia, NotasGarantia}
-    console.log(IdOrdenServicio, garantia)
-    await pool.query("UPDATE tblordenservicio SET ? WHERE IdOrdenServicio = ?",[garantia,IdOrdenServicio])
+    let {IdOrdenServicio, FechaGarantiaNew, HoraGarantia, Descripcion}=req.body
+    let garantia ={IdOrdenServicio, FechaGarantiaNew, HoraGarantia, Descripcion}
+    await pool.query("INSERT INTO `tblgarantias` SET ?",[garantia])
+    await pool.query("UPDATE tblordenservicio SET FechaGarantia = '2021-12-31 00:00:00' WHERE IdOrdenServicio = ? ", [IdOrdenServicio])
+    res.redirect("/ver_garantia"+IdOrdenServicio+"/")
+
+})
+router.post("/editar_garantia_n", isLoggedIn, async (req, res) => {
+    let {IdGarantia, IdOrdenServicio, FechaGarantiaNew, HoraGarantia, Descripcion}=req.body
+    let garantia ={ FechaGarantiaNew, HoraGarantia, Descripcion}
+    await pool.query("UPDATE tblgarantias SET ? WHERE IdGarantia = ? ", [garantia,IdGarantia])
     res.redirect("/ver_garantia"+IdOrdenServicio+"/")
 
 })
@@ -179,7 +186,7 @@ router.post("/cliente_agregar", isLoggedIn, async (req, res) => {
 })
 
 
-router.post("/agregar_garantia", isLoggedIn, async (req, res) => {
+/*router.post("/agregar_garantia", isLoggedIn, async (req, res) => {
     let { IdOrdenServicio, FechaGarantia, IdCliente} = req.body
     if (FechaGarantia=="") {
         FechaGarantia=null
@@ -187,7 +194,7 @@ router.post("/agregar_garantia", isLoggedIn, async (req, res) => {
     await pool.query("UPDATE tblordenservicio SET FechaGarantia = ? WHERE IdOrdenServicio = ?", [FechaGarantia,IdOrdenServicio])
     res.redirect("/refrigeracionalvarez/ver_cliente"+IdCliente+"/")
 
-})
+})*/
 
 
 //Ver contenido
@@ -207,15 +214,16 @@ router.get("/refrigeracionalvarez/servicios_pendientes", isLoggedIn, async (req,
     const garantia = await pool.query("SELECT * FROM `tblordenservicio` WHERE `FechaGarantia`<>'null' ORDER BY `FechaVisita` DESC")
     for (let index = 0; index < garantia.length; index++) {
         let Nclienteg = await pool.query("SELECT * FROM tblclientes WHERE `IdCliente`= ?",[garantia[index].IdCliente])
+        let Gaclienteg = await pool.query("SELECT * FROM `tblgarantias` WHERE `IdOrdenServicio` = ? ",[garantia[index].IdOrdenServicio])
         clienteg.push({
             IdOrden:garantia[index].IdOrdenServicio,
             IdCliente:garantia[index].IdCliente,
             Nombre:Nclienteg[0].Nombre,
             Calle:Nclienteg[0].DirCalle,
-            Colonia:Nclienteg[0].DirColonia,
+            Localidad:Nclienteg[0].Municipio,
             FechaVisita:garantia[index].FechaVisita,
-            FechaGarantiaNew:garantia[index].FechaGarantiaNew,
-            Hora:garantia[index].HoraGarantia
+            FechaGarantiaNew:Gaclienteg[0].FechaGarantiaNew,
+            Hora:Gaclienteg[0].HoraGarantia
         })
     }
 
@@ -227,7 +235,7 @@ router.get("/refrigeracionalvarez/servicios_pendientes", isLoggedIn, async (req,
             IdCliente:proceso[index].IdCliente,
             Nombre:Nclienteg[0].Nombre,
             Calle:Nclienteg[0].DirCalle,
-            Colonia:Nclienteg[0].DirColonia,
+            Localidad:Nclienteg[0].Municipio,
             FechaRealizacion:proceso[index].FechaRealizacion,
             Hora:proceso[index].Hora
         })
@@ -241,7 +249,7 @@ router.get("/refrigeracionalvarez/servicios_pendientes", isLoggedIn, async (req,
             IdCliente:pendientes[index].IdCliente,
             Nombre:Ncliente[0].Nombre,
             Calle:Ncliente[0].DirCalle,
-            Colonia:Ncliente[0].DirColonia,
+            Localidad:Ncliente[0].Municipio,
             FechaVisita:pendientes[index].FechaVisita,
             Hora:pendientes[index].Hora
         })
@@ -370,6 +378,12 @@ router.get("/refrigeracionalvarez/ver_cliente:id/", isLoggedIn, async (req, res)
     }
 
     res.render("layouts/cliente_completo", { equipo, cliente, orden ,id })
+})
+
+router.get("/editar_garantia_n:id", isLoggedIn, async (req, res) => {
+    const { id } = req.params
+    const orden = await pool.query("SELECT * FROM `tblgarantias` WHERE `IdGarantia` = ? ",[id])
+    res.render("layouts/editar_garantia", {orden ,id })
 })
 
 
@@ -583,8 +597,13 @@ res.redirect("/descargar")
 
 router.get("/ver_garantia:id/", isLoggedIn, async (req,res) =>{
     const {id}=req.params
-    const orden = await pool.query("SELECT * , substring(FechaGarantia,1,10)AS fecha FROM tblordenservicio WHERE IdOrdenServicio = ?",[id])
-        res.render("layouts/garantia",{orden})
+    const orden = await pool.query("SELECT * FROM tblgarantias WHERE IdOrdenServicio = ?",[id])
+    let cliente = await pool.query("SELECT `IdCliente` FROM `tblordenservicio` WHERE `IdOrdenServicio`=?",[id])
+    const garantia = await pool.query("SELECT * FROM `tblgarantias` WHERE `IdOrdenServicio` = ? ORDER BY `IdGarantia` DESC",[id])
+
+    cliente=cliente[0].IdCliente
+
+        res.render("layouts/garantia",{orden, id, cliente, garantia})
     })
 
 router.get("/ver_pdf:id/", isLoggedIn, async (req,res) =>{
