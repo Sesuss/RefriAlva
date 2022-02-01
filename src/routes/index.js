@@ -18,7 +18,7 @@ router.get("/", isLoggedIn,  (req, res) => {
 //Agregar get
 
 router.get("/refrigeracionalvarez/agregar_registro", isLoggedIn, async (req, res)=>{
-    let cliente= await pool.query("SELECT IdCliente, Nombre, DirColonia, DirCalle, DirNum from tblclientes WHERE Nombre <>' ' ORDER BY Nombre ASC")
+    let cliente= await pool.query("SELECT IdCliente, Nombre, Municipio, DirCalle, DirNum from tblclientes WHERE Nombre <>' ' ORDER BY Nombre ASC")
     let num=await pool.query("SELECT max(IdCliente) as num FROM tblclientes;")
     num=num[0].num+1
     res.render("layouts/agregar_registro",{cliente, num})
